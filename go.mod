@@ -1,4 +1,4 @@
-module geoip2
+module github.com/xinyan818/geoip2
 
 go 1.15
 
