@@ -167,7 +167,7 @@ func TestDecodesJson(t *testing.T) {
 
 func TestApi(t *testing.T) {
 	Convey("Given an Api client", t, func() {
-		api := New("blah-user-id", "blah-license-key")
+		api := New("blah-user-id", "blah-license-key", "")
 
 		Convey("When I make a query that returns a valid result", func() {
 			doFunc := func(context.Context, *http.Request) (*http.Response, error) {

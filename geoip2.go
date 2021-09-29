@@ -25,12 +25,18 @@ type Api struct {
 	doFunc     func(ctx context.Context, req *http.Request) (*http.Response, error)
 	userId     string
 	licenseKey string
+	host       string
 }
 
-func New(userId, licenseKey string) *Api {
+func New(userId, licenseKey, host string) *Api {
+	defaultHost := "geoip.maxmind.com"
+	if host == "" {
+		host = defaultHost
+	}
 	api := &Api{
 		userId:     userId,
 		licenseKey: licenseKey,
+		host:       host,
 	}
 	return WithClient(api, http.DefaultClient)
 }
@@ -54,15 +60,15 @@ func wrap(doFunc func(*http.Request) (*http.Response, error)) func(context.Conte
 }
 
 func (a *Api) Country(ctx context.Context, ipAddress string) (Response, error) {
-	return a.fetch(ctx, "https://geoip.maxmind.com/geoip/v2.1/country/", ipAddress)
+	return a.fetch(ctx, "https://"+ a.host +"/geoip/v2.1/country/", ipAddress)
 }
 
 func (a *Api) City(ctx context.Context, ipAddress string) (Response, error) {
-	return a.fetch(ctx, "https://geoip.maxmind.com/geoip/v2.1/city/", ipAddress)
+	return a.fetch(ctx, "https://"+ a.host +"/geoip/v2.1/city/", ipAddress)
 }
 
 func (a *Api) Insights(ctx context.Context, ipAddress string) (Response, error) {
-	return a.fetch(ctx, "https://geoip.maxmind.com/geoip/v2.1/insights/", ipAddress)
+	return a.fetch(ctx, "https://"+ a.host +"/geoip/v2.1/insights/", ipAddress)
 }
 
 func (a *Api) fetch(ctx context.Context, prefix, ipAddress string) (Response, error) {
