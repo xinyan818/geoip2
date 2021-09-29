@@ -50,6 +50,7 @@ func WithClientFunc(api *Api, ctxFunc func(context.Context, *http.Request) (*htt
 		doFunc:     ctxFunc,
 		userId:     api.userId,
 		licenseKey: api.licenseKey,
+		host:       api.host,
 	}
 }
 
